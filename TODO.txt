@@ -1,0 +1,13 @@
+    Temat: Menadżer kształtów 
+
+    Przygotowanie:
+    - Narysować diagram klas w drawio 
+    - Diagram w formacie xml wypchnąć na gita
+    - Stworzyć strukturę folderów projektowych i skonfigurować system budowania
+    - wypchnąć na gita
+    - od razu dzielić klasy na pliki
+    - 
+
+    Zadania ze spotkania 00.00.0000
+     - 
+    
