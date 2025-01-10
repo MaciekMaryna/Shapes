@@ -1,3 +1,4 @@
 # ninja log v5
-4	405	7556563342277789	CMakeFiles/BankServer.dir/main.cpp.obj	1d607eaaf571520d
-13	266	7556564234533344	CMakeFiles/BankServer.dir/main.cpp.obj	1d607eaaf571520d
+3	255	7556586918856270	CMakeFiles/Shapes.dir/main.cpp.obj	418a95860d474033
+6	319	7556586919508709	CMakeFiles/Shapes.dir/Src/TestApp.cpp.obj	2d72ff37a7ab3ac5
+319	409	7556586920337431	Shapes.exe	7ef12279834732e

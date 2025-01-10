@@ -14,6 +14,7 @@ void ShowCursor(void);
 int AsciiIfKeyPressed(void);
 void TestApp_main(void);
 
+} /* END: namespace TestApp */
+
 #endif /* #ifndef TESTAPP_H */
 
-} /* END: namespace TestApp */

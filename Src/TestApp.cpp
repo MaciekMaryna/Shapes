@@ -6,6 +6,7 @@
 #include <chrono>
 #include <stdint.h>
 #include <conio.h>
+#include <TestApp.hpp>
 
 /******************************************************************************
  * Magic number defines
@@ -58,6 +59,7 @@ int TestApp::AsciiIfKeyPressed(void)
 void TestApp::TestApp_main(void)
 {
     bool  DoNotFinish = true;
+    std::cout <<"AAAAAAAAAAAAAA";
     do
     {
  
@@ -71,76 +73,4 @@ void TestApp::TestApp_main(void)
 
     }
     while(DoNotFinish);
-}
-
-/*******************************************************************************
-* Function: Run 
-********************************************************************************/
-void TestApp::Run(void)
-{
-
-    ShowColumnNames();
-
-    CheckingAccount MyAccount1;
-
-    PersonalAccount MyAccount2;    
-    MyAccount2.Set_OverdraftLimit(1000);        
-    MyAccount2.Set_OverdraftInterestRate(0.15);
-
-    SavingsAccount MyAccount3; 
-
-    ForeginCurrencyAccount MyAccount4;   
-
-    // vector<Account*> accounts = {&MyAccount1, &MyAccount2, &MyAccount3};
-    // accounts.insert (&MyAccount4);
-    
-    Account* MyTab[] = {&MyAccount1, &MyAccount2, &MyAccount3, &MyAccount4};
-    MyAccount1.Withdraw(0);
-    MyTab[0] -> Withdraw(0);
-    return;
-    for (int i = 0; i < sizeof(MyTab)/sizeof(MyTab[0]); i++)
-    {
-        MyTab[i] -> Set_Currency("PL");
-        OperationNumber++;        
-        ShowReport(MyTab[i]);
-    }
-    ShowSeparationLine();
-
-    for (int i = 0; i < sizeof(MyTab)/sizeof(MyTab[0]); i++)
-    {
-        MyTab[i] -> Set_Currency("PLN");
-        OperationNumber++;
-        ShowReport(MyTab[i]);
-    }
-    ShowSeparationLine();
-
-    MyAccount4.Set_Currency("CHF");
-    OperationNumber++;
-    ShowReport(&MyAccount4);
-    ShowSeparationLine();
-
-
-    for (int i = 0; i < sizeof(MyTab)/sizeof(MyTab[0]); i++)
-    {
-        MyTab[i] -> Set_Balance(1000);
-        OperationNumber++;
-        ShowReport(MyTab[i]);
-    }
-    ShowSeparationLine();
-
-    for (int i = 0; i < sizeof(MyTab)/sizeof(MyTab[0]); i++)
-    {
-        MyTab[i] -> Withdraw(1001);    
-        OperationNumber++;
-        ShowReport(MyTab[i]);        
-    }    
-    ShowSeparationLine();
-
-    for (int i = 0; i < sizeof(MyTab)/sizeof(MyTab[0]); i++)
-    {
-        MyTab[i] -> Deposit(300); 
-        OperationNumber++;
-        ShowReport(MyTab[i]);        
-    }    
-    ShowSeparationLine();
 }

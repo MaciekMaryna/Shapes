@@ -1,13 +1,50 @@
     Temat: Menadżer kształtów 
 
     Przygotowanie:
-    - Narysować diagram klas w drawio 
-    - Diagram w formacie xml wypchnąć na gita
-    - Stworzyć strukturę folderów projektowych i skonfigurować system budowania
-    - wypchnąć na gita
-    - od razu dzielić klasy na pliki
-    - 
-
-    Zadania ze spotkania 00.00.0000
-     - 
+    + Narysować diagram klas w drawio 
+    + Diagram w formacie xml wypchnąć na gita
+    + Stworzyć strukturę folderów projektowych i skonfigurować system budowania
+    + wypchnąć na gita
+    + od razu dzielić klasy na pliki
+ 
+    Zadania ze spotkania 13.12.2024:
+     - wtyczka do diagramów do VSC
+     - podpiąć doxygen - genrownie dokumentacji z kodu
+     - Spisać wymagania - dodatkowo wrzucić do chatu
+          
     
+    Wymagania:
+        Zrealizować zaplecze aplikacji do rysowania i edycji grafiki wektorowej 2D (bez warstwy wizualizacji). Implementacja powina dostarczyć:
+            - typ Layet_t zawierający, dwa atrybuty logiczne Visability i Printability
+            - tablicę obiektów typu Layer_t do przechowywania atrybutów 256 warstw
+            - numery warstw powinny określać kolejność rysowania obiektów w taki sposób, 
+            że im wyższy jest numer warstwy tym bardziej na wierzchu znajduje się kształt
+            - warstwa najbardziej na spodzie posiada najniższy numer 0
+
+            - klasę Point przechowująca nazwę lub ID (np numer kolejny) punktu oraz dwie jego współrzędne
+
+            - klasę Palette przechowująca kolor i rodzaj linii obrysowej kształtu oraz kolor wypełnienia przy czym:
+                * maksymalna liczba kolorów linii oraz wypełnienienia 16.7M (32bity)
+                * maksymalna liczba rodzajów linii obrysowej 256 (8bitów)
+
+            - klasę bazowę Shape, która powinna:
+                * posiadać położenie wstępne określone przez składnik klasy Point, 
+                * posiadać atrybuty kolorysryczne określone przez składnik klasy Palette
+                * przynależeć do dokładnie jednej warstwy
+
+            - klasy specyficznych kształtów pochodnych, które powinny posiadaać własne implementacje metod do:
+                * przesuwania
+                * skalowania 
+                * obracania kształtu
+
+            - każda z tych metod określa w jaki sposób przeliczyć wszystkie punkty należące do kształtu, aby dokonać transformacji w nowy kształt (o nowych współrzędnych)
+
+    Pomysły:
+    - może podzielić wszystko na trzy grupy Track/OpenShape, ClosedShape Circle/Elypse
+    - dla dwóch pierwszych rodzajów stworzyć klasy bazowe, każda z nich niech zawiera kolejkę punktów
+    oraz pole liczbaPunktów  
+
+Pytania:
+- jak nazywać klasy? Nazwa Point jest trywialna i łatwo można doprowadzić do kolizji nazw. Może jakiś sprytny naming-convention, np" CPoint, CShape
+- czy Layer_t nie powinien być jednak klasą (patrz diagram). Skoro nie posiada żadnych metod, a dodatkowo warstwa jako obiekt trochę nie ma sensu, bo jest numerem (indeksem)
+- jak opisać relację LayerStack i Layer_t w stosunku do pozostałej części diagramu

@@ -1,1 +1,1 @@
-.\build\BankServer.exe
+.\build\Shapes.exe
