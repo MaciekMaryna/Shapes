@@ -39,12 +39,92 @@
 
             - każda z tych metod określa w jaki sposób przeliczyć wszystkie punkty należące do kształtu, aby dokonać transformacji w nowy kształt (o nowych współrzędnych)
 
-    Pomysły:
-    - może podzielić wszystko na trzy grupy Track/OpenShape, ClosedShape Circle/Elypse
-    - dla dwóch pierwszych rodzajów stworzyć klasy bazowe, każda z nich niech zawiera kolejkę punktów
-    oraz pole liczbaPunktów  
-
 Pytania:
-- jak nazywać klasy? Nazwa Point jest trywialna i łatwo można doprowadzić do kolizji nazw. Może jakiś sprytny naming-convention, np" CPoint, CShape
-- czy Layer_t nie powinien być jednak klasą (patrz diagram). Skoro nie posiada żadnych metod, a dodatkowo warstwa jako obiekt trochę nie ma sensu, bo jest numerem (indeksem)
-- jak opisać relację LayerStack i Layer_t w stosunku do pozostałej części diagramu
+nie ma tematu (namespace) - jak nazywać klasy? Nazwa Point jest trywialna i łatwo można doprowadzić do kolizji nazw. Może jakiś sprytny naming-convention, np" CPoint, CShape
+Przejść na klasę (nie ma znaczenia) - czy Layer_t nie powinien być jednak klasą (patrz diagram). Skoro nie posiada żadnych metod, a dodatkowo warstwa jako obiekt trochę nie ma sensu, bo jest numerem (indeksem)
+Canvas - jak opisać relację LayerStack i Layer_t w stosunku do pozostałej części diagramu
+
+Jedna z różnic między kompozycją tylko agregacją to fakt, że obiekt kontroluje czas życie podrzędnych (składowych) obiektów.
+
+Spotkanie 10.01.2025
+    - wygenerować doxygen-em diagram klas po zaimplementowaniu
+    + przemyśleć koncepcję i napisać na to wymagania dot. warstwy realizującą scenę dla obiektów (canvas)
+    + przemyśleć pomysł: narzędzie wspomagające projektowanie PCB (do decyzji)
+    - do wymagań dodać specyficzne kształty: 
+    - prawione wymagania wrzucić do czatu
+    
+    Uwagi, spostrzeżenia i pytania:
+    - w koncepcji narzędzia wspomagającego projektowanie PCB (dalej mPCB) 
+    potrezbne będą następujące kształty(obiekty specyficzne): okrąg (elipsa jako odmiana), prostokąt, trójkąt,
+    - potrzebne będzie grupowanie tych obiektów, ale jak to zrobić między warstwami? 
+    Na przykład rezystor istnieje na kilku warstwach:
+    * sitodruk
+    * pady
+    * otwory
+    * numeracja elemantów 
+    * wartości elementów
+    * soldermaska
+    * pukty lutownicze
+    * co jeszcze?
+    Trzeba zapewnić możliwość grupowania obiektów leżących na różnych warstwach, ale należących do jednego elementu.
+    - W tej koncepcji każdy element istnieje na wszytkich warstwach. Tak jakby, każdy obiekt posiadał w sobie wszystkie warstwy. 
+    Na każdej znich znajduje się jakiś precyficzny kształt lub po prostu dla tego (określonego) obiektu jest pusta. 
+    Przynalżność do danej warstwy determinuje ponadto jakie rodzaje kształtów tam będą. Scena w tym rozwiązaniu jest po prostu listą wszytskich obiektów.  
+
+    W starym pomyśle, gdzie obiekt istniał tylko na jednej wartwie lub ewentualnie na kilku, 
+    ale posaiadł tę samą reprezentację na niezależnie od warstwy. Tutaj to raczej warstwa 
+    trzymała listę ID-ków obiektów znajdujących się na niej, czyli każda warstwa jest sceną. 
+    Mamy możliwość selektywnego włączania dowolnej liczby warstw jedocześnie 
+    rozpoczynając od wszystkich wyłączonych i na wszystkich na raz włączonych skończywszy.   
+    - jak rozwiązać problem napisłow na warstwach związanych z sitodrukiem np. R10 czy 100uF
+    Nie mam pomysłu jak rozwiązać problem czcionek jako kształtów. (można dla uproszczenia zrezygnować)
+    - jak rozwiązać problem z kształtów nieregularnych jak soldermaska, czy ground-plain (można dla uproszczenia zrezygnować) 
+ 
+    Nowy pomysł mCAD wprowadza znaczną liczbę koniecznych do rozwiązania kwestii, przy czym każda z nich 
+    jest na swój sposób unikatowa i wymaga znalezienia specyficznego rozwiązania. Nie widzę mądrego, sprytnego 
+    rozwiązania, które rozwiązywałoby te problemy na raz. Nie pomoże nam obiektowa specyfika języka, bo te problemy są z natury rzeczy różne.
+    Jak obsłużyć Clearience, czyli minimalne dopuszczalne odległości między obiektami, narzędzie do konstruowania obiektów, taki jakiś projektant elementu (jak rezystor), 
+    który pozwoli stworzyć element na 10 warstwach, problem kształtów nieregularnych. Wnioski są dwa:
+    1. CorelDraw (narzędzie do grafiki wektorowej) wydaje sie jest prostrzy w implementacji niż narzędzia jak FreeCad, Eagle, ProTel
+    2. Można uprościć maksymalnie poprzez rezygnację z tych wszystkich nietypowych tematów związanych ze specyfiką projektowania PCB,
+    wówczas jednak ogolony nowy pomysł różni od starego zasadniczo tylko jedna "filozoficzna" kwestia. Gdzie przechowywać fakt istnienia obiektu:
+        * czy to warstwa ma liste ID-ków obiektów, które są na niej. Co wtedy z obiektami na kilku warstwac? Co jeśli obiekt istniał na jednej 
+        i został z niej wyrzucony? Czy nadal istnieje bezwarstwowo - czyli na jakiejś liście. 
+        * czy może to każdy obiekt posiada indywidualną listę dynamiczną o (nie-stałej) liczbie elementów, którymi są numery warstw, do których przynależy. 
+        Nadal portrzebna totalna lista istniejących obiektów 
+        * czy też w obiekcie znajduje się "macierz istnienia" o stałej dla każdego obiektu liczbie elementów, która określa dla każdej warstwy czy obiekt na niej istnieje czy nie.   
+
+    Skłaniam się do wycofania z pomysłu mPCB. Niech to funkcjonalnie najśladuje takie narzędzia jak CorelDraw.
+    Scena niech będze listą (rejestrem) przechowującą obiekty. 
+    Obiekt powinien posiadać następujące właściwości: 
+        uint ID;
+        boolean Visability;
+        boolean Printability;
+        shape* 
+
+    Rozważam wprowadzenie nowego kształtu - grupy kształtów. Realizowało by to funkcjonalność konstruowania bardziej skomplikowanych obiektów z podstawowych kształtów. 
+    Przy okazji może również rozwiąże problem lini łamanych.
+    Taki obiekt Grupa posiadałby pola:
+        * listę obiektów składowaych (ID-ki czy wskaźniki czy oba),
+        * nowy punkt zaczepienia (Ancor). Na prtrzeby człoków grupy to będzie nowe zero. Każdy członek grupy będzie miał swój wektor przesunięcia względem tego zera.
+        * wektor przesunięcia obiektów wernątrz grupy powinien być przeliczany do nowych wartości w chwili utworzenia obiektu Grupa. Najpierw przeszukać składowe obiekty
+        pod kątem ktróry z nich leży najbliżej środka i jego wektor przesunięcia ustanowić początkowym przesunięciem grupy. Wewnątrz grupy ten najbliższy obiekt 
+        otrzyma zerowy wektor przesunięcia. Natomiast wszystkie pozostałe wektory przesunięć zostaną przeliczone względem nowego lokalnego zera (Ankora). 
+        Od każdego zostanie odjęty ten najmniejszy wektor.
+
+    Właśnie!!!! czy w ogóle potrzebuję ID-ki. Zamiast tego wystarczy posługiwać się wskaźnikiem do obiektu. 
+    Elastyczność, swoboda, dodatkowa warstwa abstrakcji, trochę bezpieczeństwo. Ma ten moment można zrezygnować
+
+    Każda modyfikacja kształtu Grupa (np. przyładu przesunięcie o wektor). Będzie wymagało sięgnięcia do każdego obiektu uczestniczącego w grupie i skorzystanie 
+    z jego unikalnej metody (np. przesunięcia) w odniesieniu do jego punktów.
+
+    Czy dopuszczamy grupowanie warstwami?
+    Funkcjonalność duplikowania obiektów.
+
+Spotkanie 17.01.2025:
+    - wyczyścić wymagania
+    - uml dopieścić pod kątem nowego uszczegółowionego pomysłu w celu późniejszego porównania z tym co wygeneruje doxygen
+    - uważnie rozpatrzyć cardinality w uml (typy strzałek)
+
+
+    
