@@ -1,0 +1,59 @@
+Zrealizować zaplecze aplikacji do rysowania, edycji i drukowania grafiki wektorowej 2D 
+bez wizualizacji, drukowania oraz zapisu i odczytu na dysku.
+
+- Oprogramowanie powinno udostępniać przestrzeń dla istnienia obiektów (StackOfLayers), w której będą twotzone obiekty kształtów.
+- Przestrzeń istnienia obiektów zorganizowaną warstwowo.
+- Każda warstwa (Layer) powinna być odwzorowaniem płaszczyzny w układzie kartezjańskim w taki sposób, 
+że para dowolna współrzędnych (x,y) defniniuje jednoznacznie położnie stanowiąc pinkt (Point) na tej płaszczyźnie.
+- Współrzędne na płaszczyźnie powinny zmiennoprzecinkowe i zapewniać precyzję ***  
+- Każda z warstw powinna przechowywać listę obiektów przynależących do niej.
+- Liczba zdefiniowanych warstw jest stała i wynosi 256.
+- Warstwy powinny posiadać numery. 
+- Najniższy numer warstwy wynosi 0 - OL (Organisation Layer)
+- Warstwy powinny okrślać kolejność obiektów nanoszonych na rysunek w taki sposób, im wyższy numer warstwy 
+tym obiekty przynależące do tej warstwy znajdują się bardziej na wierzchu. 
+- Warstwa numer 0 jest na spodzie.
+- Warstwa 255 jest na wierzchu.
+- Najniższa warsrwa powinna zawierać obiekty organizujące pracę nad rysunkiem, w tym obrys obszaru rysowania DA (SheetArea)
+i drukowania PA (PrintArea).
+- Obiekty mogą istnieć poza obszarami DA i PA.
+- Podgląd pełnoekranowy rysunku DAV (Drawing Area Viev) powinien zawierać tylko te obiekty lub ich części, 
+których współrzędne należą do obszaru rysowania - DAV na tym etapie jako część wizualizacji nie jest realizowany.
+Wyjaśnia tylko relację między DA i DAV.
+- Podgląd pełnoekranowy wydruku PAV (Printing Area View) powinien zawierać tylko te obiekty lub ich części, 
+których współrzędne należą do PA - PAV jako część wizualizacji na tym etapie nie jest realizowany. Wyjaśnia 
+tylko relację między PA i PAV.
+- Obiekty powinny być dodawane/usuwane dynamicznie.
+- Każda warstwa powinna mieć możliwość włączenia/wyłączenia swojej widoczności (Viasbility) i drukowalności (Printability)
+- SW powinien dostarczyć klasę Point opisującą punkt w przestrzeni współrzędnych x: double, y: double.
+- SW powinien dostarczyć klasę Palette, która posłuży do opisu właściwości barwnych i stylu obrysu kształtów zawierającą 
+następujące właściwości: LinePattern: uint8, LineColor: uint32_t, FillColor: uint32_t
+- SW powinien dostarczyć klasę bazowę kształtu Shape, która powinna:
+    * posiadać położenie wstępne (Ankor) określone przy użyciu klasy Point, 
+    * posiadać atrybuty kolorystyczne określone przy użyciu klasy Palette
+    * przynależeć przynajmniej jednej warstwy Layer
+    * otrzymywać unikalne ID będące numerem kolejnym instancji klasy uint32_t
+- Nie przewiduje się istnienia obiektów klasy bazowej.
+- SW powinien dostarczyć klasy specyficznych kształtów:
+    * odcinek
+    * trójkąt 
+    * prostokąt, w tym kwadrat jako szczególnąy przypadek
+    * wielkokąt, w tym figuty trzy- i cztero- wierzchołkowe oraz wielowierzchołkowe
+    * elipsa, w tym koło jako szczególny przypadek
+- SW powinien dostarczać funkcjonalność: 
+    * przesuwania (Move)
+    * skalowania (Scale)
+    * obracania (Rotate) kształtu 
+- SW powinien dostarczyć mechanizm do konstruowania obiektów klas specyficznych oraz do ich niszczenia.
+- Każdy kształt specyficzny powinien posiadać odrębnę implementację metod Move, Scale i Rotate określającą w jaki sposób 
+w odniesieniu do tego kształtu zostanie wykonana każda z tych transformacji.
+- SW powinien dostarczać funkjonalność grupowania obiektów (nie dotyczy obiektów Point).
+- SW powinien realizować linie łamane jako zgrupowane odcinki 
+
+Uwagi i pytania:
+- zapis i odczyt z pliku. Wtedy chyba potrzebne jednak będą ID-ki
+- jakie jeszcze informacje/obiekty powinna zawierać warstwa 0 poza DA i PA? Może powinien na niej istnieć punkt 0. 
+- jakie możliwości można uzyskać dzięki temu, że będzie możliwość "zmiany zera" rysunku  
+- może jednak od razu wprowadzić ID-ki. Niech na przykład klasa Point przechowuje statyczną zmienną z liczbą istniejących obiektów. 
+Wtedy ID nowego obiektu klasy Point to string rozpoczynający się od litery P. Dalsze bajty to numer kolejny obiektu tej klasy 
+zczytany z wspomnianej zmiennej statycznej. 

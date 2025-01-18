@@ -8,7 +8,7 @@
     + od razu dzielić klasy na pliki
  
     Zadania ze spotkania 13.12.2024:
-     - wtyczka do diagramów do VSC
+     + wtyczka do diagramów do VSC
      - podpiąć doxygen - genrownie dokumentacji z kodu
      - Spisać wymagania - dodatkowo wrzucić do chatu
           
@@ -125,6 +125,10 @@ Spotkanie 17.01.2025:
     - wyczyścić wymagania
     - uml dopieścić pod kątem nowego uszczegółowionego pomysłu w celu późniejszego porównania z tym co wygeneruje doxygen
     - uważnie rozpatrzyć cardinality w uml (typy strzałek)
+    - rozpocząć implementację Canvas
+
+Bieżący stan projektu: 
+https://github.com/MaciekMaryna/Shapes.git
 
 
     
