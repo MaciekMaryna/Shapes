@@ -40,7 +40,7 @@
             - każda z tych metod określa w jaki sposób przeliczyć wszystkie punkty należące do kształtu, aby dokonać transformacji w nowy kształt (o nowych współrzędnych)
 
 Pytania:
-nie ma tematu (namespace) - jak nazywać klasy? Nazwa Point jest trywialna i łatwo można doprowadzić do kolizji nazw. Może jakiś sprytny naming-convention, np" CPoint, CShape
+nie ma tematu (namespacegit status) - jak nazywać klasy? Nazwa Point jest trywialna i łatwo można doprowadzić do kolizji nazw. Może jakiś sprytny naming-convention, np" CPoint, CShape
 Przejść na klasę (nie ma znaczenia) - czy Layer_t nie powinien być jednak klasą (patrz diagram). Skoro nie posiada żadnych metod, a dodatkowo warstwa jako obiekt trochę nie ma sensu, bo jest numerem (indeksem)
 Canvas - jak opisać relację LayerStack i Layer_t w stosunku do pozostałej części diagramu
 
@@ -131,4 +131,6 @@ Bieżący stan projektu:
 https://github.com/MaciekMaryna/Shapes.git
 
 
-    
+
+
+

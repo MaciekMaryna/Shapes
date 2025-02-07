@@ -1,26 +1,28 @@
 Zrealizować zaplecze aplikacji do rysowania, edycji i drukowania grafiki wektorowej 2D 
-bez wizualizacji, drukowania oraz zapisu i odczytu na dysku.
+bez wizualizacji, drukowania oraz zapisu i odczytu.
 
 - Oprogramowanie powinno udostępniać przestrzeń dla istnienia obiektów (StackOfLayers), w której będą twotzone obiekty kształtów.
-- Przestrzeń istnienia obiektów zorganizowaną warstwowo.
+- Przestrzeń istnienia obiektów powinna być zorganizowana warstwowo.
 - Każda warstwa (Layer) powinna być odwzorowaniem płaszczyzny w układzie kartezjańskim w taki sposób, 
-że para dowolna współrzędnych (x,y) defniniuje jednoznacznie położnie stanowiąc pinkt (Point) na tej płaszczyźnie.
-- Współrzędne na płaszczyźnie powinny zmiennoprzecinkowe i zapewniać precyzję ***  
+że dowolna para współrzędnych (x,y) defniniuje jednoznacznie położnie stanowiąc punkt (Point) na tej płaszczyźnie.
+- Wszytskie wymiary i współrzędne istniejące zamodelowanej przestrzeni wyrażone są w milimetrach.
+- Współrzędne na płaszczyźnie powinny być reprezentowane przez zmienną przecinkową zmiennoprzecinkowe i zapewniać precyzję dwóch miejsc po przecinku.
+- Każda warstwa jako płaszczyzna o skończonych wymiarach powinna obsługiwać obiekty o współrzędnych należących nie mniejszych niż obszar formatu drukarskiego A0 (841 mm × 1189 mm)
 - Każda z warstw powinna przechowywać listę obiektów przynależących do niej.
 - Liczba zdefiniowanych warstw jest stała i wynosi 256.
 - Warstwy powinny posiadać numery. 
 - Najniższy numer warstwy wynosi 0 - OL (Organisation Layer)
 - Warstwy powinny okrślać kolejność obiektów nanoszonych na rysunek w taki sposób, im wyższy numer warstwy 
-tym obiekty przynależące do tej warstwy znajdują się bardziej na wierzchu. 
-- Warstwa numer 0 jest na spodzie.
-- Warstwa 255 jest na wierzchu.
+tym obiekty przynależące do niej znajdują się bardziej na wierzchu. 
+- Warstwa numer 0 jest na spodzie stosu StackOfLayers.
+- Warstwa 255 jest na wierzchu stosu StackOfLayers.
 - Najniższa warsrwa powinna zawierać obiekty organizujące pracę nad rysunkiem, w tym obrys obszaru rysowania DA (SheetArea)
 i drukowania PA (PrintArea).
 - Obiekty mogą istnieć poza obszarami DA i PA.
 - Podgląd pełnoekranowy rysunku DAV (Drawing Area Viev) powinien zawierać tylko te obiekty lub ich części, 
 których współrzędne należą do obszaru rysowania - DAV na tym etapie jako część wizualizacji nie jest realizowany.
 Wyjaśnia tylko relację między DA i DAV.
-- Podgląd pełnoekranowy wydruku PAV (Printing Area View) powinien zawierać tylko te obiekty lub ich części, 
+- Podgląd wydruku PAV (Printing Area View) powinien zawierać tylko te obiekty lub ich części, 
 których współrzędne należą do PA - PAV jako część wizualizacji na tym etapie nie jest realizowany. Wyjaśnia 
 tylko relację między PA i PAV.
 - Obiekty powinny być dodawane/usuwane dynamicznie.
@@ -33,12 +35,12 @@ następujące właściwości: LinePattern: uint8, LineColor: uint32_t, FillColor
     * posiadać atrybuty kolorystyczne określone przy użyciu klasy Palette
     * przynależeć przynajmniej jednej warstwy Layer
     * otrzymywać unikalne ID będące numerem kolejnym instancji klasy uint32_t
-- Nie przewiduje się istnienia obiektów klasy bazowej.
+Nie przewiduje się istnienia obiektów klasy bazowej.
 - SW powinien dostarczyć klasy specyficznych kształtów:
     * odcinek
     * trójkąt 
     * prostokąt, w tym kwadrat jako szczególnąy przypadek
-    * wielkokąt, w tym figuty trzy- i cztero- wierzchołkowe oraz wielowierzchołkowe
+    * wielkokąt, w tym figury trzy- i cztero- wierzchołkowe oraz wielowierzchołkowe
     * elipsa, w tym koło jako szczególny przypadek
 - SW powinien dostarczać funkcjonalność: 
     * przesuwania (Move)
